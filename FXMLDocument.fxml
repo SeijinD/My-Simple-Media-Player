@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.media.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:id="program" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="my_simple_media_player.FXMLDocumentController">
+   <bottom>
+      <ToolBar prefHeight="46.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+        <items>
+          <Button fx:id="playVideo" mnemonicParsing="false" onAction="#playVideo" text="Play">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="pauseVideo" disable="true" mnemonicParsing="false" onAction="#pauseVideo" text="Pause">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="stopVideo" disable="true" mnemonicParsing="false" onAction="#stopVideo" text="Stop">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font>
+            </Button>
+        </items>
+      </ToolBar>
+   </bottom>
+   <center>
+      <MediaView fx:id="mv" fitHeight="320.0" fitWidth="600.0" BorderPane.alignment="CENTER" />
+   </center>
+   <top>
+      <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <items>
+          <Button fx:id="openFile" mnemonicParsing="false" onAction="#openFile" text="Open" />
+        </items>
+      </ToolBar>
+   </top>
+</BorderPane>
