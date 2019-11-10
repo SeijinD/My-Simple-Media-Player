@@ -1,1 +1,1 @@
-# My-Simple-Media-Player
+# Personal-Media-Player
