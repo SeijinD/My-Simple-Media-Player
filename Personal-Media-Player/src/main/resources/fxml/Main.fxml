@@ -15,12 +15,22 @@
                   <Font name="System Bold Italic" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="pauseVideo" disable="true" mnemonicParsing="false" onAction="#pauseVideo" text="Pause">
+            <Button fx:id="pauseButton" disable="true" mnemonicParsing="false" onAction="#pauseVideo" text="Pause">
                <font>
                   <Font name="System Bold Italic" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="stopVideo" disable="true" mnemonicParsing="false" onAction="#stopVideo" text="Stop">
+            <Button fx:id="stopButton" disable="true" mnemonicParsing="false" onAction="#stopVideo" text="Stop">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#backVideo" text="Back">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="nextButton" mnemonicParsing="false" onAction="#nextVideo" text="Next">
                <font>
                   <Font name="System Bold Italic" size="14.0" />
                </font>
