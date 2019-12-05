@@ -1,51 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.media.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="program" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.personal.media.player.MainController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/Styles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.personal.media.player.MainController">
    <bottom>
-      <ToolBar prefHeight="46.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-        <items>
-          <Button fx:id="playVideo" mnemonicParsing="false" onAction="#playVideo" text="Play">
-               <font>
-                  <Font name="System Bold Italic" size="14.0" />
-               </font>
-            </Button>
-            <Button fx:id="pauseButton" disable="true" mnemonicParsing="false" onAction="#pauseVideo" text="Pause">
-               <font>
-                  <Font name="System Bold Italic" size="14.0" />
-               </font>
-            </Button>
-            <Button fx:id="stopButton" disable="true" mnemonicParsing="false" onAction="#stopVideo" text="Stop">
-               <font>
-                  <Font name="System Bold Italic" size="14.0" />
-               </font>
-            </Button>
-            <Button fx:id="backButton" mnemonicParsing="false" onAction="#backVideo" text="Back">
-               <font>
-                  <Font name="System Bold Italic" size="14.0" />
-               </font>
-            </Button>
-            <Button fx:id="nextButton" mnemonicParsing="false" onAction="#nextVideo" text="Next">
-               <font>
-                  <Font name="System Bold Italic" size="14.0" />
-               </font>
-            </Button>
-        </items>
-      </ToolBar>
+      <VBox alignment="CENTER" prefHeight="43.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" prefHeight="41.0">
+               <children>
+                  <Button fx:id="openfileButton" mnemonicParsing="false" onAction="#openFile" prefHeight="20.0" prefWidth="20.0">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin></Button>
+                  <Button fx:id="playButton" mnemonicParsing="false" onAction="#playVideo" prefHeight="20.0" prefWidth="20.0">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin></Button>
+                  <Button fx:id="pauseButton" mnemonicParsing="false" onAction="#pauseVideo" prefHeight="20.0" prefWidth="20.0">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin></Button>
+                  <Button fx:id="stopButton" mnemonicParsing="false" onAction="#stopVideo" prefHeight="20.0" prefWidth="20.0">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin></Button>
+                  <Button fx:id="slowerButton" mnemonicParsing="false" onAction="#slowerVideo" text="&lt;&lt;&lt;">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin></Button>
+                  <Button fx:id="shlowButton" mnemonicParsing="false" onAction="#slowVideo" text="&lt;&lt;">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin></Button>
+                  <Button fx:id="fastButton" mnemonicParsing="false" onAction="#fastVideo" text="&gt;&gt;">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin></Button>
+                  <Button fx:id="fasterButton" mnemonicParsing="false" onAction="#fasterVideo" text="&gt;&gt;&gt;">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin></Button>
+                  <Button fx:id="exitButton" mnemonicParsing="false" onAction="#exit" prefHeight="20.0" prefWidth="20.0">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin></Button>
+                  <Slider fx:id="audioSlider" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
    </bottom>
    <center>
-      <MediaView fx:id="mv" fitHeight="320.0" fitWidth="600.0" BorderPane.alignment="CENTER" />
+      <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <MediaView fx:id="mediaView" fitHeight="200.0" fitWidth="200.0" />
+            <Slider fx:id="videoSlider" StackPane.alignment="BOTTOM_CENTER" />
+         </children>
+      </StackPane>
    </center>
-   <top>
-      <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-        <items>
-          <Button fx:id="openFile" mnemonicParsing="false" onAction="#openFile" text="Open" />
-        </items>
-      </ToolBar>
-   </top>
 </BorderPane>
