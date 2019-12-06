@@ -60,7 +60,20 @@
       <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <MediaView fx:id="mediaView" fitHeight="200.0" fitWidth="200.0" />
-            <Slider fx:id="videoSlider" StackPane.alignment="BOTTOM_CENTER" />
+            <Slider fx:id="videoSlider" prefHeight="14.0" StackPane.alignment="BOTTOM_CENTER">
+               <StackPane.margin>
+                  <Insets left="40.0" right="40.0" />
+               </StackPane.margin></Slider>
+            <Label fx:id="endTimeLabel" text="00:00" StackPane.alignment="BOTTOM_RIGHT">
+               <StackPane.margin>
+                  <Insets right="5.0" />
+               </StackPane.margin>
+            </Label>
+            <Label fx:id="startTimeLabel" text="00:00" StackPane.alignment="BOTTOM_LEFT">
+               <StackPane.margin>
+                  <Insets left="5.0" />
+               </StackPane.margin>
+            </Label>
          </children>
       </StackPane>
    </center>

@@ -13,6 +13,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
@@ -26,12 +27,16 @@ public class MainController implements Initializable {
     private String pathVideo;
     private MediaPlayer mediaPlayer;
     private Media media;
+    boolean flag = false;
     
     @FXML
     private MediaView mediaView;
     
     @FXML
     private Slider audioSlider, videoSlider;
+    
+    @FXML
+    private Label startTimeLabel, endTimeLabel;
     
     @FXML
     private Button openfileButton, playButton, pauseButton, stopButton, exitButton, slowButton, slowerButton, fastButton, fasterButton, autoButton;  
@@ -62,13 +67,19 @@ public class MainController implements Initializable {
                         mediaPlayer.setVolume(audioSlider.getValue()/100);
                     }
                 });
+                
                 mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>(){
                     @Override
                     public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue)
                     {
                         videoSlider.setValue(newValue.toSeconds());
-                    }
+                    }                    
                 });
+                
+                videoSlider.maxProperty().bind(Bindings.createDoubleBinding( 
+                            () -> mediaPlayer.getTotalDuration().toSeconds(), 
+                            mediaPlayer.totalDurationProperty()));
+                        
                 videoSlider.setOnMouseClicked(new EventHandler<MouseEvent>(){
                     @Override
                     public void handle(MouseEvent event)
@@ -80,47 +91,73 @@ public class MainController implements Initializable {
             }
     }
     
+    @FXML
     public void playVideo()
     {
         mediaPlayer.play();
         mediaPlayer.setRate(1);
     }
     
+    @FXML
     public void pauseVideo()
     {
         mediaPlayer.pause();
     }
     
+    @FXML
     public void stopVideo()
     {
         mediaPlayer.stop();
     }
     
+    @FXML
     public void slowVideo()
     {
         mediaPlayer.setRate(.75);
     }
     
+    @FXML
     public void slowerVideo()
     {
         mediaPlayer.setRate(.5);
     }
     
+    @FXML
     public void fastVideo()
     {
         mediaPlayer.setRate(1.5);
     }
     
+    @FXML
     public void fasterVideo()
     {
         mediaPlayer.setRate(2);
     }
     
+    @FXML
     public void autoVideo()
-    {
-        mediaPlayer.setAutoPlay(true);
+    {   
+        if(!flag)
+        {
+             mediaPlayer.setOnEndOfMedia(new Runnable() {
+                public void run() {
+                    mediaPlayer.seek(Duration.ZERO);
+                }
+            });
+            flag = true;
+        }
+        else
+        {
+            mediaPlayer.setOnEndOfMedia(new Runnable() {
+                public void run() {
+                    mediaPlayer.seek(Duration.seconds(mediaPlayer.getTotalDuration().toSeconds()));
+                }
+            });         
+            flag = false;
+        }
     }
     
+    @FXML
     public void exit()
     {
         System.exit(0);
