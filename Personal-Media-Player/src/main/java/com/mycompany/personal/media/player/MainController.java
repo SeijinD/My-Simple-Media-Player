@@ -23,7 +23,9 @@ import javafx.util.Duration;
 
 public class MainController implements Initializable {
     
+    private String pathVideo;
     private MediaPlayer mediaPlayer;
+    private Media media;
     
     @FXML
     private MediaView mediaView;
@@ -32,9 +34,7 @@ public class MainController implements Initializable {
     private Slider audioSlider, videoSlider;
     
     @FXML
-    private Button openfileButton, playButton, pauseButton, stopButton, exitButton, slowButton, slowerButton, fastButton, fasterButton;
-       
-    private String pathVideo;
+    private Button openfileButton, playButton, pauseButton, stopButton, exitButton, slowButton, slowerButton, fastButton, fasterButton, autoButton;  
    
     @FXML
     public void openFile()
@@ -44,10 +44,10 @@ public class MainController implements Initializable {
             fileChooser.getExtensionFilters().add(filter);
             File file = fileChooser.showOpenDialog(null);
             pathVideo = file.toURI().toString();
-            
+
             if(pathVideo != null)
             {
-                Media media = new Media(pathVideo);
+                media = new Media(pathVideo);
                 mediaPlayer = new MediaPlayer(media);
                 mediaView.setMediaPlayer(mediaPlayer);              
                 DoubleProperty width = mediaView.fitWidthProperty();
@@ -114,6 +114,11 @@ public class MainController implements Initializable {
     public void fasterVideo()
     {
         mediaPlayer.setRate(2);
+    }
+    
+    public void autoVideo()
+    {
+        mediaPlayer.setAutoPlay(true);
     }
     
     public void exit()

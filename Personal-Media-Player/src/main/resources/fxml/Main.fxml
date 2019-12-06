@@ -45,6 +45,7 @@
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin></Button>
+                  <Button fx:id="autoButton" mnemonicParsing="false" onAction="#autoVideo" text="Auto" />
                   <Button fx:id="exitButton" mnemonicParsing="false" onAction="#exit" prefHeight="20.0" prefWidth="20.0">
                      <HBox.margin>
                         <Insets right="10.0" />
