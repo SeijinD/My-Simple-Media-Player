@@ -72,20 +72,43 @@ public class MainController implements Initializable {
                 videoSlider.maxProperty().bind(Bindings.createDoubleBinding( 
                             () -> mediaPlayer.getTotalDuration().toSeconds(), 
                             mediaPlayer.totalDurationProperty()));
-                
+                            
                 //moving with double click in video slider
                 videoSlider.setOnMouseClicked((MouseEvent event) -> {
                     mediaPlayer.seek(Duration.seconds(videoSlider.getValue()));
                 });
-                mediaPlayer.play();
+
+                //endTimeLabel.setText(getTime(mediaPlayer.getTotalDuration().toSeconds()));
+                
+                mediaPlayer.play();                              
             }
+    }
+    
+    private String getTime(double time)
+    {
+        double seconds = Math.round(time);
+        double modulo = seconds % 60;
+        double hours = (seconds - modulo) / 3600;
+        double minutes = hours / 60;
+        String Time = "";
+
+        if (hours > 0.5)
+        {
+            Time = Math.round(hours) + " : " + Math.round(minutes) + " : "  
+            +   Math.round(seconds);
+        }
+        else
+        {
+            Time = Math.round(minutes) + " : " + Math.round(seconds);
+        }
+        return Time;
     }
     
     @FXML
     public void playVideo()
     {
         mediaPlayer.play();
-        mediaPlayer.setRate(1);
+        mediaPlayer.setRate(1);        
     }
     
     @FXML
