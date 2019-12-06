@@ -35,7 +35,7 @@ public class MainController implements Initializable {
     private Button openfileButton, playButton, pauseButton, stopButton, exitButton, slowButton, slowerButton, fastButton, fasterButton;
        
     private String pathVideo;
-    
+   
     @FXML
     public void openFile()
     {
@@ -83,7 +83,7 @@ public class MainController implements Initializable {
     public void playVideo()
     {
         mediaPlayer.play();
-        mediaPlayer.setRate(0);
+        mediaPlayer.setRate(1);
     }
     
     public void pauseVideo()
