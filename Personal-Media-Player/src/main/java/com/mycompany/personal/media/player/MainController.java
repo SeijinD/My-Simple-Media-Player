@@ -1,10 +1,7 @@
 package com.mycompany.personal.media.player;
 
-import java.awt.event.MouseEvent;
-import java.beans.EventHandler;
 import java.io.File;
 import java.net.URL;
-import java.time.Duration;
 import java.util.ResourceBundle;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -12,14 +9,17 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
+import javafx.util.Duration;
 
 public class MainController implements Initializable {
     
@@ -62,18 +62,18 @@ public class MainController implements Initializable {
                         mediaPlayer.setVolume(audioSlider.getValue()/100);
                     }
                 });
-                mediaPlayer.currentTimeProperty().addListener((InvalidationListener) new ChangeListener<Duration>(){
+                mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>(){
                     @Override
                     public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue)
                     {
-                        videoSlider.setValue(newValue.toMinutes());
+                        videoSlider.setValue(newValue.toSeconds());
                     }
                 });
                 videoSlider.setOnMouseClicked(new EventHandler<MouseEvent>(){
                     @Override
                     public void handle(MouseEvent event)
                     {
-                        mediaPlayer.seek(Duration.ofSeconds(videoSlider.getValue()));
+                        mediaPlayer.seek(Duration.seconds(videoSlider.getValue()));
                     }
                 });
                 mediaPlayer.play();
