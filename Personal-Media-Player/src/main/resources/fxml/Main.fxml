@@ -7,7 +7,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" stylesheets="@../styles/Styles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.personal.media.player.MainController">
+<BorderPane fx:id="border" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" stylesheets="@../styles/Styles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.personal.media.player.MainController">
    <bottom>
       <VBox alignment="CENTER" prefHeight="43.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -49,7 +49,8 @@
                   <Button fx:id="exitButton" mnemonicParsing="false" onAction="#exit" prefHeight="20.0" prefWidth="20.0">
                      <HBox.margin>
                         <Insets right="10.0" />
-                     </HBox.margin></Button>
+                     </HBox.margin>
+                  </Button>
                   <Slider fx:id="audioSlider" />
                </children>
             </HBox>

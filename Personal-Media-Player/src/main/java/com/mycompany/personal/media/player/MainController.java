@@ -3,13 +3,10 @@ package com.mycompany.personal.media.player;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -58,34 +55,27 @@ public class MainController implements Initializable {
                 DoubleProperty width = mediaView.fitWidthProperty();
                 DoubleProperty height = mediaView.fitHeightProperty();                    
                 width.bind(Bindings.selectDouble(mediaView.sceneProperty(), "width"));
-                height.bind(Bindings.selectDouble(mediaView.sceneProperty(), "height")); 
+                height.bind(Bindings.selectDouble(mediaView.sceneProperty(), "height"));
+                
+                //moving audio with audio slider
                 audioSlider.setValue(mediaPlayer.getVolume() * 100);
-                audioSlider.valueProperty().addListener(new InvalidationListener(){
-                    @Override
-                    public void invalidated(Observable observable)
-                    {
-                        mediaPlayer.setVolume(audioSlider.getValue()/100);
-                    }
+                audioSlider.valueProperty().addListener((Observable observable) -> {
+                    mediaPlayer.setVolume(audioSlider.getValue()/100);
                 });
                 
-                mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>(){
-                    @Override
-                    public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue)
-                    {
-                        videoSlider.setValue(newValue.toSeconds());
-                    }                    
+                //video slider moving together with time from video
+                mediaPlayer.currentTimeProperty().addListener((ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) -> {
+                    videoSlider.setValue(newValue.toSeconds());                    
                 });
                 
+                //video slider take all time from video
                 videoSlider.maxProperty().bind(Bindings.createDoubleBinding( 
                             () -> mediaPlayer.getTotalDuration().toSeconds(), 
                             mediaPlayer.totalDurationProperty()));
-                        
-                videoSlider.setOnMouseClicked(new EventHandler<MouseEvent>(){
-                    @Override
-                    public void handle(MouseEvent event)
-                    {
-                        mediaPlayer.seek(Duration.seconds(videoSlider.getValue()));
-                    }
+                
+                //moving with double click in video slider
+                videoSlider.setOnMouseClicked((MouseEvent event) -> {
+                    mediaPlayer.seek(Duration.seconds(videoSlider.getValue()));
                 });
                 mediaPlayer.play();
             }
@@ -139,19 +129,16 @@ public class MainController implements Initializable {
     {   
         if(!flag)
         {
-             mediaPlayer.setOnEndOfMedia(new Runnable() {
-                public void run() {
-                    mediaPlayer.seek(Duration.ZERO);
-                }
-            });
+             mediaPlayer.setOnEndOfMedia(() -> {
+                 mediaPlayer.seek(Duration.ZERO);
+             });
             flag = true;
         }
         else
         {
-            mediaPlayer.setOnEndOfMedia(new Runnable() {
-                public void run() {
-                    mediaPlayer.seek(Duration.seconds(mediaPlayer.getTotalDuration().toSeconds()));
-                }
+            mediaPlayer.setOnEndOfMedia(() -> {
+                mediaPlayer.seek(Duration.ZERO);
+                mediaPlayer.pause();
             });         
             flag = false;
         }

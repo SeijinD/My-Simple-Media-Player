@@ -42,3 +42,8 @@
     -fx-background-position: center;
     -fx-background-color: transparent;
 }
+
+#border
+{
+    -fx-background-color: #58546d;
+}
