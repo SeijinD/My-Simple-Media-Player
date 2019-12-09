@@ -62,17 +62,9 @@ public class MainController implements Initializable {
                 
                 //video slider moving together with time from video
                 moveSliderWithTime();
-                
-                //video slider take all time from video
-                setTotalTimeToSlider();
-                            
+                                        
                 //moving with double click in video slider
-                moveSliderWithDClick();
-                              
-                //Method for Time Label
-                setTime();
-                
-                mediaPlayer.play();                              
+                moveSliderWithDClick();       
             }
     }
     
@@ -101,13 +93,13 @@ public class MainController implements Initializable {
     
     private void setTotalTimeToSlider()
     {
-//        Status status = mediaPlayer.getStatus();
-//        if(status == Status.READY)
-//        {
+        Status status = mediaPlayer.getStatus();
+        if(status == Status.READY)
+        {
             videoSlider.maxProperty().bind(Bindings.createDoubleBinding( 
                 () -> mediaPlayer.getTotalDuration().toSeconds(), 
                 mediaPlayer.totalDurationProperty()));
-//        }       
+        }       
     }
     
     private void moveSliderWithDClick()
@@ -170,7 +162,13 @@ public class MainController implements Initializable {
     public void playVideo()
     {
         mediaPlayer.play();
-        mediaPlayer.setRate(1);        
+        mediaPlayer.setRate(1);
+        
+        //video slider take all time from video
+        setTotalTimeToSlider();   
+        
+        //Method for Time Label
+        setTime();
     }
     
     @FXML
