@@ -77,25 +77,36 @@ public class MainController implements Initializable {
                 videoSlider.setOnMouseClicked((MouseEvent event) -> {
                     mediaPlayer.seek(Duration.seconds(videoSlider.getValue()));
                 });
-
-                //endTimeLabel.setText(getTime(mediaPlayer.getTotalDuration().toSeconds()));
+                
+                setMusicTimeEnd();
                 
                 mediaPlayer.play();                              
             }
     }
     
+    private void setMusicTimeEnd()
+    {
+        mediaPlayer.setOnReady(new Runnable() {
+        @Override
+        public void run() 
+        {
+            double time = mediaPlayer.getTotalDuration().toSeconds();
+            endTimeLabel.setText(getTime(time));
+        }
+        });
+    }
+
     private String getTime(double time)
     {
-        double seconds = Math.round(time);
-        double modulo = seconds % 60;
-        double hours = (seconds - modulo) / 3600;
-        double minutes = hours / 60;
+        double init = Math.round(time);
+        double hours = init / 3600;
+        double minutes = ((init / 60) % 60);
+        double seconds = init % 60;
         String Time = "";
 
         if (hours > 0.5)
         {
-            Time = Math.round(hours) + " : " + Math.round(minutes) + " : "  
-            +   Math.round(seconds);
+            Time = Math.round(hours) + " : " + Math.round(minutes) + " : "  +   Math.round(seconds);
         }
         else
         {
