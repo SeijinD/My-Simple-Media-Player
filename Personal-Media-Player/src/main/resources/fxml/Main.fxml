@@ -71,14 +71,9 @@
             <MediaView fx:id="mediaView" fitHeight="200.0" fitWidth="200.0" />
             <Slider fx:id="videoSlider" prefHeight="14.0" StackPane.alignment="BOTTOM_CENTER">
                <StackPane.margin>
-                  <Insets left="65.0" right="65.0" />
+                  <Insets left="110.0" right="5.0" />
                </StackPane.margin></Slider>
-            <Label fx:id="endTimeLabel" prefHeight="17.0" prefWidth="49.0" text="00:00:00" textFill="WHITE" StackPane.alignment="BOTTOM_RIGHT">
-               <StackPane.margin>
-                  <Insets right="5.0" />
-               </StackPane.margin>
-            </Label>
-            <Label fx:id="startTimeLabel" text="00:00:00" textFill="WHITE" StackPane.alignment="BOTTOM_LEFT">
+            <Label fx:id="timeLabel" alignment="CENTER" prefHeight="17.0" prefWidth="113.0" text="00:00/00:00" textAlignment="CENTER" textFill="WHITE" StackPane.alignment="BOTTOM_LEFT">
                <StackPane.margin>
                   <Insets left="5.0" />
                </StackPane.margin>

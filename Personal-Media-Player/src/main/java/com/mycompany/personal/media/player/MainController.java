@@ -15,6 +15,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaPlayer.Status;
 import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
@@ -33,7 +34,7 @@ public class MainController implements Initializable {
     private Slider audioSlider, videoSlider;
     
     @FXML
-    private Label startTimeLabel, endTimeLabel;
+    private Label timeLabel;
     
     @FXML
     private Button openfileButton, playButton, pauseButton, stopButton, exitButton, slowButton, slowerButton, fastButton, fasterButton, autoButton;  
@@ -51,69 +52,119 @@ public class MainController implements Initializable {
             {
                 media = new Media(pathVideo);
                 mediaPlayer = new MediaPlayer(media);
-                mediaView.setMediaPlayer(mediaPlayer);              
-                DoubleProperty width = mediaView.fitWidthProperty();
-                DoubleProperty height = mediaView.fitHeightProperty();                    
-                width.bind(Bindings.selectDouble(mediaView.sceneProperty(), "width"));
-                height.bind(Bindings.selectDouble(mediaView.sceneProperty(), "height"));
+                mediaView.setMediaPlayer(mediaPlayer);  
+                
+                //Resize window
+                resizeWindow();
                 
                 //moving audio with audio slider
-                audioSlider.setValue(mediaPlayer.getVolume() * 100);
-                audioSlider.valueProperty().addListener((Observable observable) -> {
-                    mediaPlayer.setVolume(audioSlider.getValue()/100);
-                });
+                moveAudioWithSlider();
                 
                 //video slider moving together with time from video
-                mediaPlayer.currentTimeProperty().addListener((ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) -> {
-                    videoSlider.setValue(newValue.toSeconds());                    
-                });
+                moveSliderWithTime();
                 
                 //video slider take all time from video
-                videoSlider.maxProperty().bind(Bindings.createDoubleBinding( 
-                            () -> mediaPlayer.getTotalDuration().toSeconds(), 
-                            mediaPlayer.totalDurationProperty()));
+                setTotalTimeToSlider();
                             
                 //moving with double click in video slider
-                videoSlider.setOnMouseClicked((MouseEvent event) -> {
-                    mediaPlayer.seek(Duration.seconds(videoSlider.getValue()));
-                });
-                
-                setMusicTimeEnd();
+                moveSliderWithDClick();
+                              
+                //Method for Time Label
+                setTime();
                 
                 mediaPlayer.play();                              
             }
     }
     
-    private void setMusicTimeEnd()
+    private void resizeWindow()
     {
-        mediaPlayer.setOnReady(new Runnable() {
-        @Override
-        public void run() 
-        {
-            double time = mediaPlayer.getTotalDuration().toSeconds();
-            endTimeLabel.setText(getTime(time));
-        }
+        DoubleProperty width = mediaView.fitWidthProperty();
+        DoubleProperty height = mediaView.fitHeightProperty();                    
+        width.bind(Bindings.selectDouble(mediaView.sceneProperty(), "width"));
+        height.bind(Bindings.selectDouble(mediaView.sceneProperty(), "height"));
+    }
+    
+    private void moveAudioWithSlider()
+    {
+        audioSlider.setValue(mediaPlayer.getVolume() * 100);
+        audioSlider.valueProperty().addListener((Observable observable) -> {
+            mediaPlayer.setVolume(audioSlider.getValue()/100);
+        });
+    }
+    
+    private void moveSliderWithTime()
+    {
+        mediaPlayer.currentTimeProperty().addListener((ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) -> {
+            videoSlider.setValue(newValue.toSeconds());                    
+        });
+    }
+    
+    private void setTotalTimeToSlider()
+    {
+//        Status status = mediaPlayer.getStatus();
+//        if(status == Status.READY)
+//        {
+            videoSlider.maxProperty().bind(Bindings.createDoubleBinding( 
+                () -> mediaPlayer.getTotalDuration().toSeconds(), 
+                mediaPlayer.totalDurationProperty()));
+//        }       
+    }
+    
+    private void moveSliderWithDClick()
+    {
+        videoSlider.setOnMouseClicked((MouseEvent event) -> {
+            mediaPlayer.seek(Duration.seconds(videoSlider.getValue()));
+         });
+    }
+    
+    //Time Label
+    private void setTime()
+    {
+        mediaPlayer.currentTimeProperty().addListener((ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) -> {
+            timeLabel.setText(getTime(newValue,mediaPlayer.getTotalDuration()));                    
         });
     }
 
-    private String getTime(double time)
+    private String getTime(Duration elapsed, Duration duration)
     {
-        double init = Math.round(time);
-        double hours = init / 3600;
-        double minutes = ((init / 60) % 60);
-        double seconds = init % 60;
-        String Time = "";
+       int intElapsed = (int)Math.floor(elapsed.toSeconds());
+       int elapsedHours = intElapsed / (60 * 60);
+       if (elapsedHours > 0) {
+           intElapsed -= elapsedHours * 60 * 60;
+       }
+       int elapsedMinutes = intElapsed / 60;
+       int elapsedSeconds = intElapsed - elapsedHours * 60 * 60 
+                               - elapsedMinutes * 60;
 
-        if (hours > 0.5)
-        {
-            Time = Math.round(hours) + " : " + Math.round(minutes) + " : "  +   Math.round(seconds);
+       if (duration.greaterThan(Duration.ZERO)) {
+          int intDuration = (int)Math.floor(duration.toSeconds());
+          int durationHours = intDuration / (60 * 60);
+          if (durationHours > 0) {
+             intDuration -= durationHours * 60 * 60;
+          }
+          int durationMinutes = intDuration / 60;
+          int durationSeconds = intDuration - durationHours * 60 * 60 - 
+              durationMinutes * 60;
+          if (durationHours > 0) {
+             return String.format("%d:%02d:%02d/%d:%02d:%02d", 
+                elapsedHours, elapsedMinutes, elapsedSeconds,
+                durationHours, durationMinutes, durationSeconds);
+          } else {
+              return String.format("%02d:%02d/%02d:%02d",
+                elapsedMinutes, elapsedSeconds,durationMinutes, 
+                    durationSeconds);
+          }
+          } else {
+              if (elapsedHours > 0) {
+                 return String.format("%d:%02d:%02d", elapsedHours, 
+                        elapsedMinutes, elapsedSeconds);
+                } else {
+                    return String.format("%02d:%02d",elapsedMinutes, 
+                        elapsedSeconds);
+                }
         }
-        else
-        {
-            Time = Math.round(minutes) + " : " + Math.round(seconds);
-        }
-        return Time;
     }
+    //End Time Label
     
     @FXML
     public void playVideo()
